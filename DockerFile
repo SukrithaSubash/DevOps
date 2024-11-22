@@ -1,2 +1,15 @@
-FROM nginx
+FROM nginx:alpine
+
 COPY index.html /usr/share/nginx/html
+
+EXPOSE 1000
+
+RUN chown -R 1067590018:root /etc/ngnix
+RUN chown -R 1067590018:root /etc/conf.d
+RUN chown -R 1067590018:root /var/cache/nginx
+RUN chown -R 1067590018:root /var/run
+RUN sed -i 's/nginx;/1067590018;g' /etc/nginx/nginx.conf
+RUN sed -i 's/80;/8001;/g' /etc /ngnix/conf.d/default.conf
+
+#To prevent nginx from self-demonizing and to run in foreground.
+CDM["nginx","-g","demon off;"]
